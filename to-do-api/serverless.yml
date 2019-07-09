@@ -3,6 +3,7 @@ service: to-do-api
 # Use the serverless-webpack plugin to transpile ES6
 plugins:
   - serverless-webpack
+  - serverless-dynamodb-local
   - serverless-offline
 
 # serverless-webpack configuration
@@ -78,6 +79,17 @@ functions:
       - http:
           path: tasks/{id}
           method: put
+          cors: true
+          authorizer: aws_iam
+  delete:
+    # Defines an HTTP API endpoint that calls the main function in delete-task.js
+    # - path: url path is /tasks/{id}
+    # - method: DELETE request
+    handler: delete-task.main
+    events:
+      - http:
+          path: tasks/{id}
+          method: delete
           cors: true
           authorizer: aws_iam
 
