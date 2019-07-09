@@ -3,7 +3,17 @@ import AWS from "aws-sdk";
 //AWS.config.update({ region: "my-region" });
 
 export function call(action, params) {
-  const dynamoDb = new AWS.DynamoDB.DocumentClient();
+  let options = {}
+
+  // connect to local DB if running offline
+  if (process.env.IS_OFFLINE) {
+    options = {
+      region: 'localhost',
+      endpoint: 'http://localhost:8000',
+    };
+  }
+
+  const dynamoDb = new AWS.DynamoDB.DocumentClient(options);
 
   return dynamoDb[action](params).promise();
 }
