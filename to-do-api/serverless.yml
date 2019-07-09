@@ -12,11 +12,22 @@ custom:
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
+  dynamodb:
+  # If you only want to use DynamoDB Local in some stages, declare them here
+    stages:
+      - dev
+      - test
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+    # Uncomment only if you already have a DynamoDB running locally
+    # noStart: true
 
 provider:
   name: aws
   runtime: nodejs8.10
-  stage: prod
+  stage: dev
   region: ap-southeast-1
 
   # 'iamRoleStatements' defines the permission policy for the Lambda function.
@@ -92,4 +103,27 @@ functions:
           method: delete
           cors: true
           authorizer: aws_iam
+resources:
+  Resources:
+    TasksDB:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: userId
+            AttributeType: S
+          -
+            AttributeName: taskId
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: userId
+            KeyType: HASH
+          -
+            AttributeName: taskId
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        TableName: tasks
 
