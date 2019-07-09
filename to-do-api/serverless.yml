@@ -33,8 +33,8 @@ provider:
       Resource: "arn:aws:dynamodb:ap-southeast-1:752853690663:table/tasks"
 
 functions:
-  # Defines an HTTP API endpoint that calls the main function in create.js
-  # - path: url path is /task
+  # Defines an HTTP API endpoint that calls the main function in create-task.js
+  # - path: url path is /tasks
   # - method: POST request
   # - cors: enabled CORS (Cross-Origin Resource Sharing) for browser cross
   #     domain api call
@@ -43,7 +43,41 @@ functions:
     handler: create-task.main
     events:
       - http:
-          path: task
+          path: tasks
           method: post
           cors: true
           authorizer: aws_iam
+  get:
+    # Defines an HTTP API endpoint that calls the main function in get-task.js
+    # - path: url path is /tasks/{id}
+    # - method: GET request
+    handler: get-task.main
+    events:
+      - http:
+          path: tasks/{id}
+          method: get
+          cors: true
+          authorizer: aws_iam
+  list:
+    # Defines an HTTP API endpoint that calls the main function in list-tasks.js
+    # - path: url path is /notes
+    # - method: GET request
+    handler: list-tasks.main
+    events:
+      - http:
+          path: tasks
+          method: get
+          cors: true
+          authorizer: aws_iam
+  update:
+    # Defines an HTTP API endpoint that calls the main function in update-task.js
+    # - path: url path is /tasks/{id}
+    # - method: PUT request
+    handler: update-task.main
+    events:
+      - http:
+          path: tasks/{id}
+          method: put
+          cors: true
+          authorizer: aws_iam
+
