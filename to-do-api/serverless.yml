@@ -42,7 +42,10 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:ap-southeast-1:752853690663:table/tasks"
+      Resource: #"arn:aws:dynamodb:ap-southeast-1:752853690663:table/tasks"
+        Fn::GetAtt:
+          - TasksDB
+          - Arn
 
 functions:
   # Defines an HTTP API endpoint that calls the main function in create-task.js
