@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import AddTodo from "./components/AddTodo";
 import TodoList from "./components/TodoList";
 import VisibilityFilters from "./components/VisibilityFilters";
-import { Auth, Hub } from "aws-amplify";
+import { Auth, Hub, API } from "aws-amplify";
 import "./styles.css";
 
 class TodoApp extends React.Component {
   state = { user: null };
 
-  componentDidMount() {
+  async componentDidMount() {
     Hub.listen("auth", ({ payload: { event, data } }) => {
       switch (event) {
         case "signIn":
@@ -23,8 +23,23 @@ class TodoApp extends React.Component {
     Auth.currentAuthenticatedUser()
       .then(user => this.setState({ user }))
       .catch(() => console.log("Not signed in"));
+    
+    try {
+      const tasks = await this.getTasks();
+      console.log(tasks)
+      //this.setState({ notes });
+    } catch (e) {
+      console.log(e);
+    }
+    
   }
 
+  //Amplify API call for getting tasks
+  getTasks() {
+    return API.get("tasks", "/tasks");
+  }
+  
+  //Amplify SignOut
   signOut(){
     Auth.signOut()
     .then(data => console.log(data))

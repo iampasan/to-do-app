@@ -58,7 +58,7 @@ functions:
     handler: create-task.main
     events:
       - http:
-          path: tasks
+          path: api/tasks
           method: post
           cors: true
           authorizer: aws_iam
@@ -69,7 +69,7 @@ functions:
     handler: get-task.main
     events:
       - http:
-          path: tasks/{id}
+          path: api/tasks/{id}
           method: get
           cors: true
           authorizer: aws_iam
@@ -80,7 +80,7 @@ functions:
     handler: list-tasks.main
     events:
       - http:
-          path: tasks
+          path: api/tasks
           method: get
           cors: true
           authorizer: aws_iam
@@ -91,7 +91,7 @@ functions:
     handler: update-task.main
     events:
       - http:
-          path: tasks/{id}
+          path: api/tasks/{id}
           method: put
           cors: true
           authorizer: aws_iam
@@ -102,7 +102,7 @@ functions:
     handler: delete-task.main
     events:
       - http:
-          path: tasks/{id}
+          path: api/tasks/{id}
           method: delete
           cors: true
           authorizer: aws_iam
