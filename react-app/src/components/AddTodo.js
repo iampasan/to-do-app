@@ -1,11 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
-import { addTodo } from "../redux/actions";
+import { addTodo, loadTodos } from "../redux/actions";
+import _ from 'lodash';
 
 class AddTodo extends React.Component {
+  
   constructor(props) {
+    
     super(props);
     this.state = { input: "" };
+    
+    
+  }
+  
+
+  componentDidMount(){
+    
+  //console.log(this.props)
+   
   }
 
   updateInput = input => {
@@ -16,6 +28,8 @@ class AddTodo extends React.Component {
     this.props.addTodo(this.state.input);
     this.setState({ input: "" });
   };
+
+
 
   render() {
     return (
@@ -33,7 +47,7 @@ class AddTodo extends React.Component {
 }
 
 export default connect(
-  null,
-  { addTodo }
+ null,
+  { addTodo}
 )(AddTodo);
 // export default AddTodo;
