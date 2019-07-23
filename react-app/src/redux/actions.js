@@ -12,9 +12,9 @@ export const addTodo = content => ({
   }
 });
 
-export const toggleTodo = id => ({
+export const toggleTodo = (id, completed) => ({
   type: TOGGLE_TODO,
-  payload: { id }
+  payload: { id, completed }
 });
 
 export const setFilter = filter => ({
@@ -33,7 +33,7 @@ export const setFilter = filter => ({
 // }
 
 export const loadTodos = () => dispatch => {
-  axios.get("http://www.mocky.io/v2/5d2f113f3400005a0064d5a2").then(res => {
+  axios.get("http://www.mocky.io/v2/5d305a83320000b0572043f0").then(res => {
     dispatch({ type: LOAD_TODOS, payload: res.data });
   });
 };

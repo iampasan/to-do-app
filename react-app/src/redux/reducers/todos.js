@@ -1,4 +1,5 @@
-import { ADD_TODO, TOGGLE_TODO, LOAD_TODOS } from '../actionTypes';
+import { ADD_TODO, TOGGLE_TODO, LOAD_TODOS } from "../actionTypes";
+let dotProp = require("dot-prop-immutable");
 
 const initialState = {
   allIds: [],
@@ -15,6 +16,7 @@ export default function(state = initialState, action) {
         byIds: [
           ...state.byIds,
           {
+            id: id,
             content,
             completed: false
           }
@@ -25,17 +27,23 @@ export default function(state = initialState, action) {
       const { id } = action.payload;
       return {
         ...state,
-        byIds: [
-          ...state.byIds,
-          {
-            ...state.byIds[id],
-            completed: !state.byIds[id].completed
+        byIds: state.byIds.map((item, index) => {
+          if (item["id"] === id) {
+            return {
+              ...item,
+              completed: !state.byIds[index].completed
+            };
           }
-        ]
+          return item;
+        })
       };
     }
     case LOAD_TODOS: {
-      return { ...state, byIds: action.payload };
+      return {
+        ...state,
+        byIds: action.payload,
+        allIds: [...state.allIds, action.payload[0]["id"]]
+      };
     }
     default:
       return state;

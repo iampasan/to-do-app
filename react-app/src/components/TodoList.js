@@ -28,8 +28,9 @@ class TodoList extends React.Component {
     props.loadTodos();
   }
   render() {
+    
     const { todos } = this.props;
-    console.log(todos);
+    console.log({todos});
     return (
       <ul className="todo-list">
         {todos && todos.length
@@ -52,8 +53,16 @@ class TodoList extends React.Component {
 // };
 
 const mapStateToProps = state => {
-  return { todos: state.todos.byIds };
+  const { visibilityFilter } = state;
+  const todos = getTodosByVisibilityFilter(state.todos.byIds, visibilityFilter);
+  return { todos};
 };
+
+// const mapStateToProps = state => {
+//   const { visibilityFilter } = state;
+//   const todos = getTodosByVisibilityFilter(state, visibilityFilter);
+//   return { todos };
+// }
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
