@@ -1,19 +1,47 @@
 import React from "react";
 import { connect } from "react-redux";
 import Todo from "./Todo";
+import { loadTodos } from "../redux/actions";
+import { bindActionCreators } from "redux";
+
 // import { getTodos } from "../redux/selectors";
 import { getTodosByVisibilityFilter } from "../redux/selectors";
 import { VISIBILITY_FILTERS } from "../constants";
 
-const TodoList = ({ todos }) => (
-  <ul className="todo-list">
-    {todos && todos.length
-      ? todos.map((todo, index) => {
-          return <Todo key={`todo-${todo.id}`} todo={todo} />;
-        })
-      : "No todos, yay!"}
-  </ul>
-);
+// const TodoList = ({ todos, loadTodos }) => {
+//   // loadTodos();
+//   return (
+//     <ul className="todo-list">
+//       {todos && todos.length
+//         ? todos.map((todo, index) => {
+//             return <Todo key={`todo-${todo.id}`} todo={todo} />;
+//           })
+//         : "No todos, yay!"}
+//     </ul>
+//   );
+// };
+
+class TodoList extends React.Component {
+  constructor(props) {
+    super(props);
+
+    props.loadTodos();
+  }
+  render() {
+    
+    const { todos } = this.props;
+    console.log({todos});
+    return (
+      <ul className="todo-list">
+        {todos && todos.length
+          ? todos.map((todo, index) => {
+              return <Todo key={`todo-${todo.taskId}`} todo={todo} />;
+            })
+          : "No todos, yay!"}
+      </ul>
+    );
+  }
+}
 
 // const mapStateToProps = state => {
 //   const { byIds, allIds } = state.todos || {};
@@ -26,17 +54,26 @@ const TodoList = ({ todos }) => (
 
 const mapStateToProps = state => {
   const { visibilityFilter } = state;
-  const todos = getTodosByVisibilityFilter(state, visibilityFilter);
-  return { todos };
-  //   const allTodos = getTodos(state);
-  //   return {
-  //     todos:
-  //       visibilityFilter === VISIBILITY_FILTERS.ALL
-  //         ? allTodos
-  //         : visibilityFilter === VISIBILITY_FILTERS.COMPLETED
-  //           ? allTodos.filter(todo => todo.completed)
-  //           : allTodos.filter(todo => !todo.completed)
-  //   };
+  const todos = getTodosByVisibilityFilter(state.todos.byIds, visibilityFilter);
+  return { todos};
 };
+
+// const mapStateToProps = state => {
+//   const { visibilityFilter } = state;
+//   const todos = getTodosByVisibilityFilter(state, visibilityFilter);
+//   return { todos };
+// }
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      loadTodos
+    },
+    dispatch
+  );
+
 // export default TodoList;
-export default connect(mapStateToProps)(TodoList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoList);

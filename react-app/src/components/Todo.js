@@ -4,7 +4,7 @@ import cx from "classnames";
 import { toggleTodo } from "../redux/actions";
 
 const Todo = ({ todo, toggleTodo }) => (
-  <li className="todo-item" onClick={() => toggleTodo(todo.id)}>
+  <li className="todo-item" onClick={() => toggleTodo(todo.taskId)}>
     {todo && todo.completed ? "👌" : "👋"}{" "}
     <span
       className={cx(
@@ -12,7 +12,7 @@ const Todo = ({ todo, toggleTodo }) => (
         todo && todo.completed && "todo-item__text--completed"
       )}
     >
-      {todo.content}
+      {todo.description}
     </span>
   </li>
 );

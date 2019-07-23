@@ -7,6 +7,7 @@ export function call(action, params) {
 
   // connect to local DB if running offline
   if (process.env.IS_OFFLINE) {
+    console.log(process.env);
     options = {
       region: 'localhost',
       endpoint: 'http://localhost:8000',

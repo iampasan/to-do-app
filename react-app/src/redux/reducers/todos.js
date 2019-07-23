@@ -1,8 +1,9 @@
-import { ADD_TODO, TOGGLE_TODO } from "../actionTypes";
+import { ADD_TODO, TOGGLE_TODO, LOAD_TODOS } from "../actionTypes";
+let dotProp = require("dot-prop-immutable");
 
 const initialState = {
   allIds: [],
-  byIds: {}
+  byIds: []
 };
 
 export default function(state = initialState, action) {
@@ -12,26 +13,36 @@ export default function(state = initialState, action) {
       return {
         ...state,
         allIds: [...state.allIds, id],
-        byIds: {
+        byIds: [
           ...state.byIds,
-          [id]: {
+          {
+            id: id,
             content,
             completed: false
           }
-        }
+        ]
       };
     }
     case TOGGLE_TODO: {
       const { id } = action.payload;
       return {
         ...state,
-        byIds: {
-          ...state.byIds,
-          [id]: {
-            ...state.byIds[id],
-            completed: !state.byIds[id].completed
+        byIds: state.byIds.map((item, index) => {
+          if (item["taskId"] === id) {
+            return {
+              ...item,
+              completed: !state.byIds[index].completed
+            };
           }
-        }
+          return item;
+        })
+      };
+    }
+    case LOAD_TODOS: {
+      return {
+        ...state,
+        byIds: action.payload,
+        allIds: [...state.allIds, action.payload[1]["taskId"]]
       };
     }
     default:
