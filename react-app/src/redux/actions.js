@@ -5,11 +5,11 @@ import { API } from "aws-amplify";
 
 let nextTodoId = 0;
 
-export const addTodo = content => ({
+export const addTodo = description => ({
   type: ADD_TODO,
   payload: {
-    id: ++nextTodoId,
-    content
+    taskId: 55,
+    description
   }
 });
 
@@ -33,8 +33,8 @@ export const setFilter = filter => ({
 //         })
 // }
 
-export const loadTodos = () => dispatch => {
-  API.get("tasks", "/tasks").then(res => {
+export const  loadTodos = () => dispatch => {
+   API.get("tasks", "/tasks").then(res => {
     console.log("here"+res)
     dispatch({ type: LOAD_TODOS, payload: res });
   });

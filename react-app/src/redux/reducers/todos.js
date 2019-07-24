@@ -9,15 +9,15 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case ADD_TODO: {
-      const { id, content } = action.payload;
+      const { taskId, description } = action.payload;
       return {
-        ...state,
-        allIds: [...state.allIds, id],
+        
+        allIds: [...state.allIds, taskId],
         byIds: [
           ...state.byIds,
           {
-            id: id,
-            content,
+            taskId: taskId,
+            description,
             completed: false
           }
         ]
