@@ -5,16 +5,19 @@ plugins:
   - serverless-webpack
   - serverless-dynamodb-local
   - serverless-offline
-
-# serverless-webpack configuration
-# Enable auto-packing of external modules
 custom:
+  # Stage is based on what is passed in when running serverless
+  # commands. Or fallsback to what we have set in the provider section.
+  stage: ${opt:stage, self:provider.stage}
   # Dynamodb table name
   tableName: ${self:custom.stage}-tasks
+  # serverless-webpack configuration
+  # Enable auto-packing of external modules
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
-  dynamodb: #Dynamodb local settings
+  #DynamoDB Local config
+  dynamodb:
   # If you only want to use DynamoDB Local in some stages, declare them here
     stages:
       - dev
@@ -117,4 +120,6 @@ resources:
   - ${file(resources/dynamodb-table.yml)}
   # API Gateway CORS config
   - ${file(resources/api-gateway-cors-config.yml)}
+    # Cognito
+  - ${file(resources/cognito-user-pool.yml)}
 
