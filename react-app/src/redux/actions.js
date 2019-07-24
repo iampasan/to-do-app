@@ -1,4 +1,4 @@
-import { ADD_TODO, TOGGLE_TODO, SET_FILTER, LOAD_TODOS } from "./actionTypes";
+import { ADD_TODO, TOGGLE_TODO, SET_FILTER, LOAD_TODOS, SET_USER } from "./actionTypes";
 import _ from "lodash";
 import axios from "axios";
 import { API } from "aws-amplify";
@@ -21,6 +21,11 @@ export const toggleTodo = (id, completed) => ({
 export const setFilter = filter => ({
   type: SET_FILTER,
   payload: { filter }
+});
+
+export const setUser = user => ({
+  type: SET_USER,
+  payload: { user }
 });
 
 // export const loadTodos = () => (dispatch, getState) => {
