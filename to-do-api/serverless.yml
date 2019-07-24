@@ -9,14 +9,15 @@ plugins:
 # serverless-webpack configuration
 # Enable auto-packing of external modules
 custom:
+  # Dynamodb table name
+  tableName: ${self:custom.stage}-tasks
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
-  dynamodb:
+  dynamodb: #Dynamodb local settings
   # If you only want to use DynamoDB Local in some stages, declare them here
     stages:
       - dev
-      - test
     start:
       port: 8000
       inMemory: true
@@ -29,7 +30,10 @@ provider:
   runtime: nodejs8.10
   stage: dev
   region: ap-southeast-1
-
+  # These environment variables are made available to our functions
+  # under process.env.
+  environment:
+    tableName: ${self:custom.tableName}
   # 'iamRoleStatements' defines the permission policy for the Lambda function.
   # In this case Lambda functions are granted with permissions to access DynamoDB.
   iamRoleStatements:
@@ -42,10 +46,11 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: #"arn:aws:dynamodb:ap-southeast-1:752853690663:table/tasks"
-        Fn::GetAtt:
-          - TasksDB
-          - Arn
+      # Restrict our IAM role permissions to
+      # the specific table for the stage
+      Resource:
+        - "Fn::GetAtt": [ TaskDB, Arn ]
+
 
 functions:
   # Defines an HTTP API endpoint that calls the main function in create-task.js
@@ -106,45 +111,10 @@ functions:
           method: delete
           cors: true
           authorizer: aws_iam
+# Creation of resources with separate CloudFormation templates
 resources:
-  Resources:
-    TasksDB:
-      Type: 'AWS::DynamoDB::Table'
-      Properties:
-        AttributeDefinitions:
-          -
-            AttributeName: userId
-            AttributeType: S
-          -
-            AttributeName: taskId
-            AttributeType: S
-        KeySchema:
-          -
-            AttributeName: userId
-            KeyType: HASH
-          -
-            AttributeName: taskId
-            KeyType: RANGE
-        ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
-        TableName: tasks
-    GatewayResponseDefault4XX:
-      Type: 'AWS::ApiGateway::GatewayResponse'
-      Properties:
-        ResponseParameters:
-          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
-          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
-        ResponseType: DEFAULT_4XX
-        RestApiId:
-          Ref: 'ApiGatewayRestApi'
-    GatewayResponseDefault5XX:
-      Type: 'AWS::ApiGateway::GatewayResponse'
-      Properties:
-        ResponseParameters:
-          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
-          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
-        ResponseType: DEFAULT_5XX
-        RestApiId:
-          Ref: 'ApiGatewayRestApi'
+  # DynamoDB
+  - ${file(resources/dynamodb-table.yml)}
+  # API Gateway CORS config
+  - ${file(resources/api-gateway-cors-config.yml)}
 
