@@ -25,6 +25,8 @@ custom:
       port: 8000
       inMemory: true
       migrate: true
+  serverless-offline:
+    port: 15001    
     # Uncomment only if you already have a DynamoDB running locally
     # noStart: true
 
