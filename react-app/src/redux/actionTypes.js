@@ -3,4 +3,5 @@ export const TOGGLE_TODO = "TOGGLE_TODO";
 export const SET_FILTER = "SET_FILTER";
 export const LOAD_TODOS = "LOAD_TODOS";
 export const SET_USER = "SET_USER";
+export const REMOVE_TODO = "REMOVE_TODO";
 

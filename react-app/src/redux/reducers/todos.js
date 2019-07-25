@@ -1,4 +1,4 @@
-import { ADD_TODO, TOGGLE_TODO, LOAD_TODOS } from "../actionTypes";
+import { ADD_TODO, TOGGLE_TODO, LOAD_TODOS, REMOVE_TODO } from "../actionTypes";
 let dotProp = require("dot-prop-immutable");
 
 const initialState = {
@@ -24,14 +24,14 @@ export default function(state = initialState, action) {
       };
     }
     case TOGGLE_TODO: {
-      const { id } = action.payload;
+      const { id, completed } = action.payload;
       return {
         ...state,
         byIds: state.byIds.map((item, index) => {
           if (item["taskId"] === id) {
             return {
               ...item,
-              completed: !state.byIds[index].completed
+              completed: !completed
             };
           }
           return item;
@@ -42,8 +42,27 @@ export default function(state = initialState, action) {
       return {
         ...state,
         byIds: action.payload,
-        allIds: [...state.allIds, action.payload[1]["taskId"]]
+        allIds: [action.payload.map(item => item.taskId)]
       };
+    }
+
+    case REMOVE_TODO: {
+     
+      return {
+        ...state,
+        byIds: state.byIds.filter((elem, idx) => { 
+           if(elem.taskId !== action.payload.id){
+            console.log(state.byIds)
+            return elem;
+          }
+        }),
+        allIds: state.allIds.filter((elem, idx) => { 
+           if(elem !== action.payload.id){
+             console.log(elem+" allIds "+action.payload.id)
+            return elem;
+          }
+        })
+      }
     }
     default:
       return state;
