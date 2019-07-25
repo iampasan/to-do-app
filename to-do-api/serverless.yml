@@ -122,4 +122,5 @@ resources:
   - ${file(resources/api-gateway-cors-config.yml)}
     # Cognito
   - ${file(resources/cognito-user-pool.yml)}
+  - ${file(resources/cognito-identity-pool.yml)}
 
