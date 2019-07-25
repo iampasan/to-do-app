@@ -52,7 +52,9 @@ provider:
       # Restrict our IAM role permissions to
       # the specific table for the stage
       Resource:
-        - "Fn::GetAtt": [ TaskDB, Arn ]
+        Fn::GetAtt:
+          - TasksTable
+          - Arn
 
 
 functions:
@@ -117,10 +119,10 @@ functions:
 # Creation of resources with separate CloudFormation templates
 resources:
   # DynamoDB
-  - ${file(resources/dynamodb-table.yml)}
+  - ${file(./resources/dynamodb-table.yml)}
   # API Gateway CORS config
-  - ${file(resources/api-gateway-cors-config.yml)}
+  - ${file(./resources/api-gateway-cors-config.yml)}
     # Cognito
-  - ${file(resources/cognito-user-pool.yml)}
-  - ${file(resources/cognito-identity-pool.yml)}
+  - ${file(./resources/cognito-user-pool.yml)}
+  - ${file(./resources/cognito-identity-pool.yml)}
 
