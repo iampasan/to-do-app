@@ -1,5 +1,5 @@
 import { success, failure } from "./libs/response-lib";
-import TodoService from './services/todo-service';
+import TodoService from './services/todo.service';
 
 //Create todoService
 let todoService = new TodoService();
