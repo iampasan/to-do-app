@@ -67,7 +67,7 @@ functions:
   #     domain api call
   # - authorizer: authenticate using the AWS IAM role
   create:
-    handler: create-task.main
+    handler: handlers/create-task.main
     events:
       - http:
           path: api/tasks
@@ -78,7 +78,7 @@ functions:
     # Defines an HTTP API endpoint that calls the main function in get-task.js
     # - path: url path is /tasks/{id}
     # - method: GET request
-    handler: get-task.main
+    handler: handlers/get-task.main
     events:
       - http:
           path: api/tasks/{id}
@@ -89,7 +89,7 @@ functions:
     # Defines an HTTP API endpoint that calls the main function in list-tasks.js
     # - path: url path is /notes
     # - method: GET request
-    handler: list-tasks.main
+    handler: handlers/list-tasks.main
     events:
       - http:
           path: api/tasks
@@ -100,7 +100,7 @@ functions:
     # Defines an HTTP API endpoint that calls the main function in update-task.js
     # - path: url path is /tasks/{id}
     # - method: PUT request
-    handler: update-task.main
+    handler: handlers/update-task.main
     events:
       - http:
           path: api/tasks/{id}
@@ -111,7 +111,7 @@ functions:
     # Defines an HTTP API endpoint that calls the main function in delete-task.js
     # - path: url path is /tasks/{id}
     # - method: DELETE request
-    handler: delete-task.main
+    handler: handlers/delete-task.main
     events:
       - http:
           path: api/tasks/{id}
