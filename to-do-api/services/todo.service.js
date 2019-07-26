@@ -146,4 +146,4 @@ class TodoService {
     }
   }
 }
-module.exports = TodoService;
+module.exports = new TodoService();
