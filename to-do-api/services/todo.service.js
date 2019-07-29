@@ -1,14 +1,11 @@
 import uuid from "uuid";
 import * as dynamoDbLib from "../libs/dynamodb-lib";
 
-class TodoService {
-  constructor() {
-    this.todoTable = process.env.tableName;
-  }
-
+export default {
+  
   async get(userId, taskId) {
     const params = {
-      TableName: this.todoTable,
+      TableName: process.env.tableName,
       // 'Key' defines the partition key and sort key of the item to be updated
       // - 'userId': Identity Pool identity id of the authenticated user
       // - 'taskId': path parameter
@@ -33,7 +30,7 @@ class TodoService {
         payload: { message: "Retreiving item failed !", error: e }
       };
     }
-  }
+  },
 
   async getAll(userId) {
     const params = {
@@ -60,7 +57,7 @@ class TodoService {
         payload: { message: "Failed getting items !", error: e }
       };
     }
-  }
+  },
 
   async save(cognitoIdentityId, item) {
     const todo = {
@@ -72,7 +69,7 @@ class TodoService {
     };
 
     const params = {
-      TableName: this.todoTable,
+      TableName: process.env.tableName,
       Item: todo
     };
 
@@ -85,7 +82,7 @@ class TodoService {
         payload: { message: "Saving task failed !", error: e }
       };
     }
-  }
+  },
 
   async update(userId, taskId, item) {
     const params = {
@@ -121,7 +118,7 @@ class TodoService {
         payload: { message: "Updating task failed !", error: e }
       };
     }
-  }
+  },
 
   async delete(userId, taskId) {
     const params = {
@@ -146,4 +143,3 @@ class TodoService {
     }
   }
 }
-module.exports = new TodoService();
