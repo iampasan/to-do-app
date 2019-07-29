@@ -21,7 +21,7 @@ beforeAll(async () => {
 describe("Todo Service", () => {
   /**----Get Item Test----**/
 
-  it("Shold get Item", async () => {
+  it("Should get Item", async () => {
     // Overwriting DynamoDB.DocumentClient.get()
     AWSMock.mock("DynamoDB.DocumentClient", "get", (params, callback) => {
       console.log("DynamoDB Document Client", "get", "mock called");
@@ -53,7 +53,7 @@ describe("Todo Service", () => {
 
   /**----Get All Items Test----**/
 
-  it("Shold Get All Items", async () => {
+  it("Should Get All Items", async () => {
     // Overwriting DynamoDB.DocumentClient.query()
     AWSMock.mock("DynamoDB.DocumentClient", "query", (params, callback) => {
       console.log("DynamoDB Document Client", "query", "mock called");
@@ -87,7 +87,7 @@ describe("Todo Service", () => {
 
   /**----Save Item Test----**/
 
-  it("Shold Save Item", async () => {
+  it("Should Save Item", async () => {
     // Overwriting DynamoDB.DocumentClient.put()
     AWSMock.mock("DynamoDB.DocumentClient", "put", (params, callback) => {
       console.log("DynamoDB Document Client", "put", "mock called");
