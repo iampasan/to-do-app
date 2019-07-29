@@ -8,6 +8,11 @@ import config from "./aws-resource-config";
 
 import TodoApp from "./TodoApp";
 
+//Material UI
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { ThemeProvider } from "@material-ui/styles";
+import theme from "./theme";
+
 //Configure Amplify (For Auth)
 Amplify.configure({
   Auth: {
@@ -32,7 +37,10 @@ Amplify.configure({
 const rootElement = document.getElementById("root");
 ReactDOM.render(
   <Provider store={store}>
-    <TodoApp />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <TodoApp />
+    </ThemeProvider>
   </Provider>,
   rootElement
 );

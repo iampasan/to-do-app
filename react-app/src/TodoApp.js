@@ -6,10 +6,15 @@ import { Auth, Hub, API } from "aws-amplify";
 import { connect } from "react-redux";
 import { setUser } from "./redux/actions";
 import { bindActionCreators } from "redux";
-import "./styles.css";
+
+//Material UI
+import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import Link from "@material-ui/core/Link";
 
 class TodoApp extends React.Component {
-
   async componentDidMount() {
     Hub.listen("auth", ({ payload: { event, data } }) => {
       switch (event) {
@@ -38,7 +43,7 @@ class TodoApp extends React.Component {
   render() {
     console.log("Propss");
     console.log(this.props);
-    if(this.props.user){
+    if (this.props.user) {
       //If user is Logged in render app
       return (
         <div className="todo-app">
@@ -49,11 +54,23 @@ class TodoApp extends React.Component {
           <VisibilityFilters />
         </div>
       );
-    }else{
-      //Else render only Sign in Or up button
+    } else {
+      //Else render landing page
       return (
         <div className="todo-app">
-          <button onClick={() => Auth.federatedSignIn()}>Register or Sign In</button>
+          <Container maxWidth="sm">
+            <Box my={4} alignItems="center" >
+              <Typography variant="h4" component="h1" gutterBottom>
+                Welcome to the To-do App!
+              </Typography>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => Auth.federatedSignIn()}>
+                Register or Sign In
+              </Button>
+            </Box>
+          </Container>
         </div>
       );
     }
@@ -62,7 +79,7 @@ class TodoApp extends React.Component {
 
 const mapStateToProps = state => {
   const { user } = state;
-  return { user};
+  return { user };
 };
 
 const mapDispatchToProps = dispatch =>
