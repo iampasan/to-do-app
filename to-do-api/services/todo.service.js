@@ -34,7 +34,7 @@ export default {
 
   async getAll(userId) {
     const params = {
-      TableName: this.todoTable,
+      TableName: process.env.tableName,
       // 'KeyConditionExpression' defines the condition for the query
       // - 'userId = :userId': only return items with matching 'userId'
       //   partition key
@@ -86,7 +86,7 @@ export default {
 
   async update(userId, taskId, item) {
     const params = {
-      TableName: this.todoTable,
+      TableName: process.env.tableName,
       // 'Key' defines the partition key and sort key of the item to be updated
       // - 'userId': Identity Pool identity id of the authenticated user
       // - 'taskId': path parameter
@@ -122,7 +122,7 @@ export default {
 
   async delete(userId, taskId) {
     const params = {
-      TableName: this.todoTable,
+      TableName: process.env.tableName,
       // 'Key' defines the partition key and sort key of the item to be removed
       // - 'userId': Identity Pool identity id of the authenticated user
       // - 'taskId': path parameter
