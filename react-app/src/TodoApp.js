@@ -7,6 +7,10 @@ import { connect } from "react-redux";
 import { setUser } from "./redux/actions";
 import { bindActionCreators } from "redux";
 
+//UI Elements/Pages
+import Landing from "./components/Landing";
+import NavBar from "./components/ui-elements/NavBar";
+
 //Material UI
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
@@ -41,14 +45,14 @@ class TodoApp extends React.Component {
   }
 
   render() {
-    console.log("Propss");
-    console.log(this.props);
     if (this.props.user) {
       //If user is Logged in render app
       return (
-        <div className="todo-app">
-          <button onClick={() => this.signOut()}>Sign Out</button>
-          <h1>Todo List</h1>
+        <div>
+          <NavBar />
+          <Typography variant="h2" gutterBottom>
+            Todo List
+          </Typography>
           <AddTodo />
           <TodoList />
           <VisibilityFilters />
@@ -56,23 +60,7 @@ class TodoApp extends React.Component {
       );
     } else {
       //Else render landing page
-      return (
-        <div className="todo-app">
-          <Container maxWidth="sm">
-            <Box my={4} alignItems="center" >
-              <Typography variant="h4" component="h1" gutterBottom>
-                Welcome to the To-do App!
-              </Typography>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={() => Auth.federatedSignIn()}>
-                Register or Sign In
-              </Button>
-            </Box>
-          </Container>
-        </div>
-      );
+      return <Landing />;
     }
   }
 }
