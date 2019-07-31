@@ -12,6 +12,7 @@ import TodoApp from "./TodoApp";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "@material-ui/styles";
 import theme from "./theme";
+import Container from "@material-ui/core/Container";
 
 //Configure Amplify (For Auth)
 Amplify.configure({
@@ -39,7 +40,7 @@ ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <TodoApp />
+        <TodoApp />
     </ThemeProvider>
   </Provider>,
   rootElement
